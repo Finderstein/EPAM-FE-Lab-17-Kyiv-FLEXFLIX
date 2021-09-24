@@ -1,84 +1,89 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { Link, useHistory } from "react-router-dom";
 import "./layout.css";
 import "react-tabs/style/react-tabs.css";
-import M from "materialize-css";
+import NavbarLinks from "./NavbarLinks";
+// import Breadcrumbs from "./Breadcrumbs";
 
 const Navbar = () => {
-  const [activeLi, setActiveLi] = useState();
+	const history = useHistory();
+	const navLinks = useRef({
+		find: undefined,
+		users: undefined,
+		active: undefined,
+	});
 
-  const activateLi = (e) => {
-    if (activeLi) {
-      activeLi.classList.remove("active-navbar");
-    }
-    e.target.classList.add("active-navbar");
-    setActiveLi(e.target);
+	const activateLi = (target) => {
+		console.log(navLinks.current.active);
+		if (navLinks.current.active) {
+			navLinks.current.active.classList.remove("active-navbar");
+		}
+		target.classList.add("active-navbar");
+		navLinks.current.active = target;
+	};
 
-    const sidenav = document.getElementById("slide-out");
-    const instance = M.Sidenav.getInstance(sidenav);
-    instance.close();
-  };
+	const clearActiveLi = () => {
+		if (navLinks.current.active) {
+			navLinks.current.active.classList.remove("active-navbar");
+		}
+		navLinks.current.active = null;
+	};
 
-  const clearActiveLi = () => {
-    if (activeLi) {
-      activeLi.classList.remove("active-navbar");
-    }
-    setActiveLi(null);
-  };
+	const manageActiveLi = (pathname) => {
+		switch (pathname) {
+			case "/find":
+				activateLi(navLinks.current.find);
+				break;
+			case "/users":
+				activateLi(navLinks.current.users);
+				break;
+			default:
+				clearActiveLi();
+		}
+	};
 
-  useEffect(() => {
-    const sidenav = document.querySelectorAll(".sidenav");
-    M.Sidenav.init(sidenav);
-  }, []);
+	useEffect(() => {
+		return history.listen((location) => {
+			manageActiveLi(location.pathname);
+		});
+	}, [history]);
 
-  return (
-    <>
-      <div className="navbar-fixed">
-        <nav className="nav-wrapper grey lighten-5">
-          <div className="nav-wrapper">
-            <Link
-              to="/"
-              onClick={clearActiveLi}
-              className="logo brand-logo red-text text-accent-4"
-            >
-              FLEXFLIX
-            </Link>
-            <a
-              href="#sidebar"
-              data-target="slide-out"
-              className="sidenav-trigger"
-            >
-              <i className="material-icons black-text">menu</i>
-            </a>
-            <ul id="nav-mobile" className="right hide-on-med-and-down">
-              <li onClick={activateLi}>
-                <Link to="/find" className="black-text">
-                  Find
-                </Link>
-              </li>
-              <li onClick={activateLi}>
-                <Link to="/users" className="black-text">
-                  Users
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-      <ul id="slide-out" className="sidenav">
-        <li onClick={activateLi}>
-          <Link to="/find" className="black-text">
-            Find
-          </Link>
-        </li>
-        <li onClick={activateLi}>
-          <Link to="/users" className="black-text">
-            Users
-          </Link>
-        </li>
-      </ul>
-    </>
-  );
+	useEffect(() => {
+		navLinks.current.find = document.getElementById("find-nav");
+		navLinks.current.users = document.getElementById("users-nav");
+		manageActiveLi(window.location.pathname);
+	}, []);
+
+	return (
+		<>
+			<nav className="navbar navbar-expand-lg navbar-light bg-light">
+				<div className="container-fluid">
+					<button
+						className="navbar-toggler"
+						type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#navbarToggler"
+						aria-controls="navbarToggler"
+						aria-expanded="false"
+						aria-label="Toggle navigation"
+					>
+						<span className="navbar-toggler-icon"></span>
+					</button>
+					<Link to="/" className="navbar-brand logo text-danger ms-5">
+						FLEXFLIX
+					</Link>
+					<div
+						className="collapse navbar-collapse"
+						id="navbarToggler"
+					>
+						<ul className="navbar-nav ms-5 mt-2">
+							<NavbarLinks />
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</>
+	);
 };
 
 export default Navbar;
