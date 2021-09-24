@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AiringTodayShowCard from "./AiringTodayShowCard";
+import { getTodayShows } from "../../../api/tvmaze.api";
 
 const AiringToday = () => {
 	const [todayShows, setTodayShows] = useState();
 
-	// Get today string
 	const now = new Date();
 	const strNow =
 		now.getFullYear() +
@@ -14,37 +14,8 @@ const AiringToday = () => {
 		"-" +
 		now.getUTCDate();
 
-	// Get airing today shows
-	const getTodayShows = async () => {
-		const response = await fetch(
-			`https://api.tvmaze.com/schedule?date=${strNow}`
-		);
-		if (!response.ok) {
-			throw response;
-		}
-
-		const data = await response.json();
-		const shows = data.map((item) => item.show); // Get only shows data
-		shows.sort((a, b) => {
-			return +b.weight - +a.weight;
-		}); // Sort by weight AKA popularity
-
-		const uniqueID = new Set();
-		const todayShows = shows
-			.filter((show) => {
-				if (!uniqueID.has(show.id)) {
-					uniqueID.add(show.id);
-					return true;
-				}
-				return false;
-			}) // Only unique entries by show ID
-			.slice(0, 8);
-
-		setTodayShows(todayShows);
-	};
-
 	useEffect(() => {
-		getTodayShows();
+		getTodayShows(setTodayShows);
 	}, []);
 
 	return (

@@ -5,7 +5,7 @@ import UserPopular from "./PagesSubComponents/UserPopular";
 
 const MainPage = () => {
 	return (
-		<>
+		<div>
 			<AiringToday />
 			<div className="container mt-5 mb-3">
 				<div className="row d-flex justify-content-between">
@@ -13,7 +13,7 @@ const MainPage = () => {
 					<RandomShow />
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 
