@@ -7,6 +7,20 @@ const strNow =
 	"-" +
 	now.getUTCDate();
 
+// Get specific show by id
+const getShow = async (setShows, showID) => {
+	const response = await fetch(
+		`https://api.tvmaze.com/shows/${showID}?embed[]=episodes&embed[]=seasons&embed[]=cast&embed[]=images&embed[]=crew`
+	);
+	if (!response.ok) {
+		throw response;
+	}
+
+	const show = await response.json();
+
+	setShows(show);
+};
+
 // Get airing today shows
 const getTodayShows = async (setShows, targetNumber = 8) => {
 	const response = await fetch(
@@ -99,4 +113,4 @@ const getRandomShows = async (setShows) => {
 	setShows(randomShowsArray);
 };
 
-export { getRandomShows, getTodayShows };
+export { getRandomShows, getTodayShows, getShow };

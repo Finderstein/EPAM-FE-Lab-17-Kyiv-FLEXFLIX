@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./layout.css";
 import "react-tabs/style/react-tabs.css";
-import NavbarLinks from "./NavbarLinks";
+import NavbarLinks from "./layoutSubComponents/NavbarLinks";
 // import Breadcrumbs from "./Breadcrumbs";
 
 const Navbar = () => {
