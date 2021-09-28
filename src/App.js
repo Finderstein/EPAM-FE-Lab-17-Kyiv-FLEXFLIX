@@ -5,7 +5,9 @@ import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
 import MainPage from "./components/shows/MainPage/MainPage";
 import ShowPage from "./components/shows/ShowPage/ShowPage";
+import Profile from "./components/users/ProfilePage/ProfilePage";
 import { AuthProvider } from "./context/AuthContext";
+import PrivateRoute from "./utilities/PrivateRoute";
 
 const App = () => {
 	return (
@@ -18,6 +20,11 @@ const App = () => {
 						<Route exact path="/show/:id" component={ShowPage} />
 						<Route exact path="/sign-in" component={SignIn} />
 						<Route exact path="/sign-up" component={SignUp} />
+						<PrivateRoute
+							exact
+							path="/profile"
+							component={Profile}
+						/>
 					</Switch>
 					<Footer />
 				</div>

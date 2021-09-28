@@ -23,7 +23,7 @@ const ShowTabs = ({ show }) => {
 	}, []);
 
 	return (
-		<div className="container mt-3 p-3 show-wrap">
+		<div className="container mt-3 p-3">
 			<ul className="nav nav-tabs" id="showTab" role="tablist">
 				<li className="nav-item" role="presentation">
 					<button

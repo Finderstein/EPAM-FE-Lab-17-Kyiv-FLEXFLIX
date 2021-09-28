@@ -1,33 +1,33 @@
-const CrewTab = ({ crew }) => {
+const CastTab = ({ cast }) => {
 	return (
 		<div
 			className="tab-pane"
-			id="crew"
+			id="cast"
 			role="tabpanel"
-			aria-labelledby="crew-tab"
+			aria-labelledby="cast-tab"
 		>
 			<div className="container">
 				<div className="row">
-					{crew.map((member) => (
+					{cast.map((member) => (
 						<div
 							className="col-sm-6 col-md-4"
-							key={"Crew " + member.person.name + member.type}
+							key={"Cast " + member.person.name}
 						>
 							<div className="row mt-4">
 								<div className="col-6">
 									<img
 										src={
-											(member.person.image !== null &&
-												member.person.image.medium) ||
-											"https://static.tvmaze.com/images/no-img/no-img-portrait-clean.png"
+											member.character.image
+												? member.character.image.medium
+												: "https://static.tvmaze.com/images/no-img/no-img-portrait-clean.png"
 										}
-										alt={member.person.name}
+										alt={member.character.name}
 										width="210"
 									/>
 								</div>
 								<div className="col-6 ps-4">
 									<h3 className="h3">{member.person.name}</h3>
-									<p>as {member.type}</p>
+									<p>as {member.character.name}</p>
 								</div>
 							</div>
 						</div>
@@ -38,4 +38,4 @@ const CrewTab = ({ crew }) => {
 	);
 };
 
-export default CrewTab;
+export default CastTab;

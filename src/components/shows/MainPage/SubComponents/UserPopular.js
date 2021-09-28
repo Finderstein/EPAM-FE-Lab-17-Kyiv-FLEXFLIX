@@ -1,10 +1,10 @@
 import { useState } from "react";
 import UserPopularShowCard from "./UserPopularShowCard";
 import { getTodayShows } from "../../../../api/tvmaze.api";
-import { connect } from "react-redux";
 import { useFetchShows } from "../../../hooks/useFetchShows";
 
 // TO DO: change from todayShows to user popular shows
+
 const UserPopular = () => {
 	const [todayShows, setTodayShows] = useState();
 
@@ -22,10 +22,4 @@ const UserPopular = () => {
 	);
 };
 
-const mapStateToProps = (state) => {
-	return {
-		shows: state.show.shows,
-	};
-};
-
-export default connect(mapStateToProps)(UserPopular);
+export default UserPopular;

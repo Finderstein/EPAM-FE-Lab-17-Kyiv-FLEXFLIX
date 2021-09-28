@@ -1,32 +1,32 @@
-import "./auth.css";
 import { useRef, useState } from "react";
 import { Alert } from "react-bootstrap";
 import { useAuth } from "../../context/AuthContext";
 import { useHistory } from "react-router";
+import "./auth.css";
 
 const SignIn = () => {
 	const emailRef = useRef();
 	const passwordRef = useRef();
-	const { login } = useAuth();
+	const { signin } = useAuth();
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 	const history = useHistory();
 
-	async function handleSubmit(e) {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log("handleSubmit");
 
 		try {
 			setError("");
 			setLoading(true);
-			await login(emailRef.current.value, passwordRef.current.value);
+			await signin(emailRef.current.value, passwordRef.current.value);
 			history.push("/");
 		} catch {
-			setError("Failed to log in");
+			setError("Failed to sign in");
 		}
 
 		setLoading(false);
-	}
+	};
 
 	return (
 		<main className="form-signin text-center">

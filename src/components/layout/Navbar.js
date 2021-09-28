@@ -2,9 +2,6 @@ import { Link } from "react-router-dom";
 import "./layout.css";
 import "react-tabs/style/react-tabs.css";
 import NavbarLinks from "./layoutSubComponents/NavbarLinks";
-// import Breadcrumbs from "./Breadcrumbs";
-import { dbFirestore } from "../../config/fbConfig";
-import { collection, getDocs } from "firebase/firestore";
 import NavbarAuth from "./layoutSubComponents/NavbarAuth";
 
 const Navbar = () => {
@@ -33,7 +30,7 @@ const Navbar = () => {
 					<div className="d-flex flex-wrap align-items-stretch justify-content-center justify-content-lg-start">
 						<Link
 							to="/"
-							className="navbar-brand logo text-danger ms-lg-5 py-3"
+							className="navbar-brand logo text-danger py-3"
 						>
 							FLEXFLIX
 						</Link>

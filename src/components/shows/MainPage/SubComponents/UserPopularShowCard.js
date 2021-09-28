@@ -1,6 +1,6 @@
-import "../../shows.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import "../../shows.css";
 
 const UserPopularShowCard = ({
 	id,

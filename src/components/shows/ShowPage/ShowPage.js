@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getShow } from "../../../api/tvmaze.api";
 import { useFetchShows } from "../../hooks/useFetchShows";
 import "../shows.css";
-import ShowMainInfo from "./ShowMainInfo";
-import ShowTabs from "./ShowTabs";
+import ShowMainInfo from "./SubComponents/ShowMainInfo";
+import ShowTabs from "./SubComponents/ShowTabs";
 
 const ShowPage = ({
 	match: {

@@ -1,9 +1,9 @@
-import "../../shows.css";
 import { useRef, useState } from "react";
 import RandomShowCard from "./RandomShowCard";
 import { getRandomShows } from "../../../../api/tvmaze.api";
 import { useFetchShows } from "../../../hooks/useFetchShows";
 import _ from "lodash";
+import "../../shows.css";
 
 const RandomShow = () => {
 	const [randomShows, setRandomShows] = useState();

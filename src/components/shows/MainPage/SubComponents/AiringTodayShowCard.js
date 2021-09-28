@@ -1,6 +1,6 @@
-import "../../shows.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import "../../shows.css";
 
 const AiringTodayShowCard = ({ id, name, image: { medium }, summary }) => {
 	const [loading, setLoading] = useState(true);

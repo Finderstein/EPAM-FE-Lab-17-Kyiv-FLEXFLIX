@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 const GalleryTab = ({ images }) => {
 	const posters = images.filter((image) => image.type === "poster");
 	const banners = images.filter((image) => image.type === "banners");
@@ -26,10 +24,9 @@ const GalleryTab = ({ images }) => {
 							>
 								<img
 									src={
-										(image.resolutions.medium !==
-											undefined &&
-											image.resolutions.medium.url) ||
-										image.resolutions.original.url
+										image.resolutions.medium
+											? image.resolutions.medium.url
+											: image.resolutions.original.url
 									}
 									alt={"Poster " + i}
 									width="210"
@@ -50,10 +47,9 @@ const GalleryTab = ({ images }) => {
 							>
 								<img
 									src={
-										(image.resolutions.medium !==
-											undefined &&
-											image.resolutions.medium.url) ||
-										image.resolutions.original.url
+										image.resolutions.medium
+											? image.resolutions.medium.url
+											: image.resolutions.original.url
 									}
 									alt={"Poster " + i}
 									width="210"
@@ -74,10 +70,9 @@ const GalleryTab = ({ images }) => {
 							>
 								<img
 									src={
-										(image.resolutions.medium !==
-											undefined &&
-											image.resolutions.medium.url) ||
-										image.resolutions.original.url
+										image.resolutions.medium
+											? image.resolutions.medium.url
+											: image.resolutions.original.url
 									}
 									alt={"Poster " + i}
 									width="210"

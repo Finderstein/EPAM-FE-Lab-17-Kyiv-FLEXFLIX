@@ -1,69 +1,112 @@
-import { useEffect } from "react";
-import "./auth.css";
 import ReactTooltip from "react-tooltip";
 import { useHistory } from "react-router";
+import { useRef, useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { Alert } from "react-bootstrap";
+import "./auth.css";
 
 const SignUp = () => {
+	const [validInfo, setValidInfo] = useState({
+		pass: false,
+		repeatPass: false,
+	});
+	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(false);
 	const history = useHistory();
-	const validatePassword = (event) => {
-		console.log(event.target.value);
-		const pass = event.target.value;
-		const errorList = document.getElementById("passError");
+
+	const { signup } = useAuth();
+
+	const email = useRef();
+	const firstname = useRef();
+	const lastname = useRef();
+	const userPass = useRef();
+	const repeatPass = useRef();
+
+	const errorList = useRef();
+	const repeatPassError = useRef();
+
+	const validatePassword = () => {
+		const passStr = userPass.current.value;
 		let errorMessageList = [];
 
-		if (!/(?=.*\d)/.test(pass)) {
+		if (!/(?=.*\d)/.test(passStr)) {
 			errorMessageList.push("Must contain number\n");
 		}
-		if (!/(?=.*[a-z])/.test(pass)) {
+		if (!/(?=.*[a-z])/.test(passStr)) {
 			errorMessageList.push("Must contain lowercase letter\n");
 		}
-		if (!/(?=.*[A-Z])/.test(pass)) {
-			errorMessageList.push("Must contain uppercase letter\n");
-		}
-		if (!/(?=.*[-+_!@#$%^&*.,?])/.test(pass)) {
-			errorMessageList.push("Must contain symbol\n");
-		}
-		if (pass.length < 8) {
+		// if (!/(?=.*[A-Z])/.test(pass)) {
+		// 	errorMessageList.push("Must contain uppercase letter\n");
+		// }
+		// if (!/(?=.*[-+_!@#$%^&*.,?])/.test(pass)) {
+		// 	errorMessageList.push("Must contain symbol\n");
+		// }
+		if (passStr.length < 8) {
 			errorMessageList.push("Must have at least 8 characters\n");
 		}
 
-		errorList.innerHTML = "";
+		errorList.current.innerHTML = "";
 		if (errorMessageList.length === 0) {
-			errorList.classList.add("visually-hidden");
+			errorList.current.classList.add("visually-hidden");
 		} else {
 			for (const errorMessage of errorMessageList) {
 				const errorLi = document.createElement("li");
 				errorLi.innerText = errorMessage;
-				errorList.append(errorLi);
+				errorList.current.append(errorLi);
 			}
-			errorList.classList.remove("visually-hidden");
+			errorList.current.classList.remove("visually-hidden");
 		}
+
+		setValidInfo({ ...validInfo, pass: errorMessageList.length === 0 });
 	};
 
-	const handleRegistration = (e) => {
-		e.preventDefault();
-		history.push("/");
-	};
+	const validateRepeatPassword = () => {
+		console.log(repeatPass.current.value);
+		console.log(validInfo);
 
-	const validateRepeatPassword = (event) => {
-		console.log(event.target.value);
-		const repeatPass = event.target.value;
-		const userPass = document.getElementById("userPassword").value;
-		const errorSpan = document.getElementById("passRepeatError");
-
-		if (repeatPass !== userPass) {
-			errorSpan.classList.remove("visually-hidden");
+		if (repeatPass.current.value !== userPass.current.value) {
+			repeatPassError.current.classList.remove("visually-hidden");
 		} else {
-			errorSpan.classList.add("visually-hidden");
+			repeatPassError.current.classList.add("visually-hidden");
+		}
+
+		console.log(repeatPass.current.value, userPass.current.value);
+
+		setValidInfo({
+			...validInfo,
+			repeatPass: repeatPass.current.value === userPass.current.value,
+		});
+	};
+
+	const handleRegistration = async (e) => {
+		e.preventDefault();
+
+		validatePassword();
+		validateRepeatPassword();
+
+		if (validInfo.pass && validInfo.repeatPass) {
+			try {
+				setError("");
+				setLoading(true);
+				await signup(
+					email.current.value,
+					userPass.current.value,
+					firstname.current.value,
+					lastname.current.value
+				);
+				history.push("/");
+			} catch (e) {
+				console.log(e);
+				setError("Failed to sign up");
+			}
 		}
 	};
 
-	useEffect(() => {});
 	return (
 		<main className="form-signin text-center">
 			<form onSubmit={handleRegistration}>
 				<h1 className="h3 mt-5 mb-3 fw-normal">Sign up</h1>
-
+				{error && <Alert variant="danger">{error}</Alert>}
 				<div className="form-floating">
 					<input
 						type="email"
@@ -71,8 +114,33 @@ const SignUp = () => {
 						id="userEmail"
 						placeholder="name@example.com"
 						required
+						ref={email}
 					/>
-					<label htmlFor="floatingInput">Email address</label>
+					<label htmlFor="userEmail">Email address</label>
+				</div>
+
+				<div className="form-floating">
+					<input
+						type="text"
+						className="form-control"
+						id="userFirstname"
+						placeholder="First Name"
+						required
+						ref={firstname}
+					/>
+					<label htmlFor="userFirstname">First Name</label>
+				</div>
+
+				<div className="form-floating">
+					<input
+						type="text"
+						className="form-control"
+						id="userLastname"
+						placeholder="Last Name"
+						required
+						ref={lastname}
+					/>
+					<label htmlFor="userLastname">Last Name</label>
 				</div>
 
 				<div className="form-floating mt-2 d-flex field-with-popover">
@@ -82,9 +150,10 @@ const SignUp = () => {
 						id="userPassword"
 						placeholder="Password"
 						onBlur={validatePassword}
+						ref={userPass}
 						required
 					/>
-					<label htmlFor="floatingPassword">Password</label>
+					<label htmlFor="userPassword">Password</label>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="32"
@@ -106,15 +175,13 @@ const SignUp = () => {
 						<ul className="text-start">
 							<li>Be at least 8 characters</li>
 							<li>Have at least one number</li>
-							<li>Have at least one symbol</li>
-							<li>Have at least one upper case letter</li>
 							<li>Have at least one lower case letter</li>
 						</ul>
 					</ReactTooltip>
 				</div>
 				<ul
 					className="text-danger text-start visually-hidden mt-1"
-					id="passError"
+					ref={errorList}
 				></ul>
 
 				<div className="form-floating mt-2">
@@ -123,14 +190,15 @@ const SignUp = () => {
 						className="form-control"
 						id="repeatUserPassword"
 						placeholder="Password"
-						onBlur={validateRepeatPassword}
+						onChange={validateRepeatPassword}
 						required
+						ref={repeatPass}
 					/>
-					<label htmlFor="floatingPassword">Repeat password</label>
+					<label htmlFor="repeatUserPassword">Repeat password</label>
 				</div>
 				<ul
 					className="text-danger text-start visually-hidden"
-					id="passRepeatError"
+					ref={repeatPassError}
 				>
 					<li>Passwords must be the same</li>
 				</ul>
@@ -138,6 +206,9 @@ const SignUp = () => {
 				<button
 					className="w-100 btn btn-lg btn-primary mt-4"
 					type="submit"
+					disabled={
+						loading || !validInfo.pass || !validInfo.repeatPass
+					}
 				>
 					Sign up
 				</button>

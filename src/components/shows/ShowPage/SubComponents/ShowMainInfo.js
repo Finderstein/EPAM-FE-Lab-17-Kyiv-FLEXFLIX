@@ -3,10 +3,9 @@ const ShowMainInfo = ({ show }) => {
 		<div className="container mt-3 p-3 show-wrap">
 			{show && (
 				<div className="row">
-					{console.log(show)}
 					<div className="col-sm-12 col-md-2">
 						<img
-							className="show-img"
+							className="img-shadow"
 							src={show.image.medium}
 							alt={show.name}
 						/>
