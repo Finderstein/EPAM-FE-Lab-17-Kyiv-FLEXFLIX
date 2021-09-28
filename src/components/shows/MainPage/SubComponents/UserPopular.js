@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import UserPopularShowCard from "./UserPopularShowCard";
-import { getTodayShows } from "../../../api/tvmaze.api";
+import { getTodayShows } from "../../../../api/tvmaze.api";
 import { connect } from "react-redux";
+import { useFetchShows } from "../../../hooks/useFetchShows";
 
 // TO DO: change from todayShows to user popular shows
-const UserPopular = (shows) => {
+const UserPopular = () => {
 	const [todayShows, setTodayShows] = useState();
-	console.log(shows);
 
-	useEffect(() => {
-		getTodayShows(setTodayShows, 11);
-	}, []);
+	useFetchShows(() => getTodayShows(11), setTodayShows);
 
 	return (
 		<div className="col-8">

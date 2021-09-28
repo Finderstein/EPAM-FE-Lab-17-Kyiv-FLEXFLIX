@@ -1,6 +1,6 @@
-import UserPopular from "./UserPopular";
-import RandomShow from "./RandomShow";
-import AiringToday from "./AiringToday";
+import UserPopular from "./SubComponents/UserPopular";
+import RandomShow from "./SubComponents/RandomShow";
+import AiringToday from "./SubComponents/AiringToday";
 
 const MainPage = () => {
 	return (

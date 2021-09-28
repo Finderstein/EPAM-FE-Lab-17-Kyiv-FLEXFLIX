@@ -1,19 +1,29 @@
-import "../shows.css";
-import { useEffect, useState } from "react";
+import "../../shows.css";
+import { useRef, useState } from "react";
 import RandomShowCard from "./RandomShowCard";
-import { getRandomShows } from "../../../api/tvmaze.api";
+import { getRandomShows } from "../../../../api/tvmaze.api";
+import { useFetchShows } from "../../../hooks/useFetchShows";
+import _ from "lodash";
 
 const RandomShow = () => {
 	const [randomShows, setRandomShows] = useState();
 	const [loading, setLoading] = useState(true);
+	const tryTextRef = useRef();
+	const rndWrapRef = useRef();
 
-	useEffect(() => {
-		getRandomShows(setRandomShows);
-	}, []);
+	useFetchShows(getRandomShows, setRandomShows);
+
+	const tryAgain = async () => {
+		setRandomShows(await getRandomShows());
+		tryTextRef.current.scrollIntoView();
+		rndWrapRef.current.style.display = "none";
+	};
+
+	console.log(randomShows);
 
 	return (
 		<div className="col-3">
-			<h2 className="mb-4" id="try-text">
+			<h2 className="mb-4" ref={tryTextRef}>
 				Feeling lucky?
 			</h2>
 			<div
@@ -26,29 +36,21 @@ const RandomShow = () => {
 			<div
 				style={{ visibility: loading ? "hidden" : "visible" }}
 				onLoad={() => {
-					document.getElementById("random-wrapper").style.display =
-						"block";
+					rndWrapRef.current.style.display = "block";
 					setLoading(false);
 				}}
-				id="random-wrapper"
+				ref={rndWrapRef}
 			>
 				{randomShows &&
 					randomShows.map((show) => (
 						<RandomShowCard
-							key={`RandomShowCard${show.id}`}
+							key={_.uniqueId(`RandomShowCard${show.id}`)}
 							{...show}
 						/>
 					))}
 				<button
 					type="button"
-					onClick={() => {
-						setLoading(true);
-						getRandomShows(setRandomShows);
-						document.getElementById("try-text").scrollIntoView();
-						document.getElementById(
-							"random-wrapper"
-						).style.display = "none";
-					}}
+					onClick={tryAgain}
 					className="btn btn-warning btn-try-again mt-4"
 				>
 					Try again?

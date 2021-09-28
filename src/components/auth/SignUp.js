@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import "./auth.css";
 import ReactTooltip from "react-tooltip";
+import { useHistory } from "react-router";
 
 const SignUp = () => {
+	const history = useHistory();
 	const validatePassword = (event) => {
 		console.log(event.target.value);
 		const pass = event.target.value;
@@ -38,6 +40,11 @@ const SignUp = () => {
 		}
 	};
 
+	const handleRegistration = (e) => {
+		e.preventDefault();
+		history.push("/");
+	};
+
 	const validateRepeatPassword = (event) => {
 		console.log(event.target.value);
 		const repeatPass = event.target.value;
@@ -54,7 +61,7 @@ const SignUp = () => {
 	useEffect(() => {});
 	return (
 		<main className="form-signin text-center">
-			<form>
+			<form onSubmit={handleRegistration}>
 				<h1 className="h3 mt-5 mb-3 fw-normal">Sign up</h1>
 
 				<div className="form-floating">

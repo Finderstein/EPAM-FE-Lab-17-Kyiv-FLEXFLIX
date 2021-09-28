@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AiringTodayShowCard from "./AiringTodayShowCard";
-import { getTodayShows } from "../../../api/tvmaze.api";
+import { getTodayShows } from "../../../../api/tvmaze.api";
+import { useFetchShows } from "../../../hooks/useFetchShows";
 
 const AiringToday = () => {
 	const [todayShows, setTodayShows] = useState();
@@ -14,9 +15,7 @@ const AiringToday = () => {
 		"-" +
 		now.getUTCDate();
 
-	useEffect(() => {
-		getTodayShows(setTodayShows);
-	}, []);
+	useFetchShows(getTodayShows, setTodayShows);
 
 	return (
 		<div className="container">

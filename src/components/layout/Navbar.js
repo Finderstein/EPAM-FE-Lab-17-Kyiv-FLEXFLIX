@@ -1,55 +1,30 @@
-import { useEffect, useRef } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./layout.css";
 import "react-tabs/style/react-tabs.css";
 import NavbarLinks from "./layoutSubComponents/NavbarLinks";
 // import Breadcrumbs from "./Breadcrumbs";
+import { dbFirestore } from "../../config/fbConfig";
+import { collection, getDocs } from "firebase/firestore";
+import NavbarAuth from "./layoutSubComponents/NavbarAuth";
 
 const Navbar = () => {
-	const history = useHistory();
-	const navLinks = useRef({
-		find: undefined,
-		users: undefined,
-		active: undefined,
-	});
+	// const test = async () => {
+	// 	// Solution 1
+	// 	const querySnapshot = await getDocs(collection(dbFirestore, "test"));
+	// 	querySnapshot.forEach((doc) => {
+	// 		// doc.data() is never undefined for query doc snapshots
+	// 		console.log(doc.id, " => ", doc.data());
+	// 	});
 
-	const activateLi = (target) => {
-		clearActiveLi();
-		target.classList.add("active-navbar");
-		navLinks.current.active = target;
-	};
-
-	const clearActiveLi = () => {
-		if (navLinks.current.active) {
-			navLinks.current.active.classList.remove("active-navbar");
-		}
-		navLinks.current.active = null;
-	};
-
-	const manageActiveLi = (pathname) => {
-		switch (pathname) {
-			case "/find":
-				activateLi(navLinks.current.find);
-				break;
-			case "/users":
-				activateLi(navLinks.current.users);
-				break;
-			default:
-				clearActiveLi();
-		}
-	};
-
-	useEffect(() => {
-		return history.listen((location) => {
-			manageActiveLi(location.pathname);
-		});
-	}, [history]);
-
-	useEffect(() => {
-		navLinks.current.find = document.getElementById("find-nav");
-		navLinks.current.users = document.getElementById("users-nav");
-		manageActiveLi(window.location.pathname);
-	}, []);
+	// 	// Solution 2
+	// 	const citiesCol = collection(dbFirestore, "test");
+	// 	const citySnapshot = await getDocs(citiesCol);
+	// 	const cityList = citySnapshot.docs.map((doc) => doc.data());
+	// 	cityList.forEach((doc) => {
+	// 		// doc.data() is never undefined for query doc snapshots
+	// 		console.log(doc);
+	// 	});
+	// };
 
 	return (
 		<>
@@ -58,12 +33,12 @@ const Navbar = () => {
 					<div className="d-flex flex-wrap align-items-stretch justify-content-center justify-content-lg-start">
 						<Link
 							to="/"
-							className="navbar-brand logo text-danger ms-5 py-3"
+							className="navbar-brand logo text-danger ms-lg-5 py-3"
 						>
 							FLEXFLIX
 						</Link>
 
-						<ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center align-items-center mb-md-0 ms-4">
+						<ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center align-items-center mb-md-0 ms-lg-4">
 							<NavbarLinks />
 						</ul>
 
@@ -75,67 +50,7 @@ const Navbar = () => {
 								aria-label="Search"
 							/>
 						</form>
-						{true && (
-							<div className="text-end d-flex align-items-center">
-								<Link
-									to="/sign-in"
-									className="btn btn-outline-light me-2"
-								>
-									Sign In
-								</Link>
-								<Link to="/sign-up" className="btn btn-warning">
-									Sign Up
-								</Link>
-							</div>
-						)}
-
-						{false && (
-							<div class="dropdown text-end">
-								<a
-									href="#"
-									class="d-block link-dark text-decoration-none dropdown-toggle"
-									id="dropdownUser1"
-									data-bs-toggle="dropdown"
-									aria-expanded="false"
-								>
-									<img
-										src="https://github.com/mdo.png"
-										alt="mdo"
-										width="32"
-										height="32"
-										class="rounded-circle"
-									/>
-								</a>
-								<ul
-									class="dropdown-menu text-small"
-									aria-labelledby="dropdownUser1"
-								>
-									<li>
-										<a class="dropdown-item" href="#">
-											New project...
-										</a>
-									</li>
-									<li>
-										<a class="dropdown-item" href="#">
-											Settings
-										</a>
-									</li>
-									<li>
-										<a class="dropdown-item" href="#">
-											Profile
-										</a>
-									</li>
-									<li>
-										<hr class="dropdown-divider" />
-									</li>
-									<li>
-										<a class="dropdown-item" href="#">
-											Sign out
-										</a>
-									</li>
-								</ul>
-							</div>
-						)}
+						<NavbarAuth />
 					</div>
 				</div>
 			</header>

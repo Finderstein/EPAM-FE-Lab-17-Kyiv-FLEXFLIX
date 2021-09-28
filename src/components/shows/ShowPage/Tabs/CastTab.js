@@ -9,12 +9,21 @@ const CastTab = ({ cast }) => {
 			<div className="container">
 				<div className="row">
 					{cast.map((member) => (
-						<div className="col-sm-6 col-md-4">
+						<div
+							className="col-sm-6 col-md-4"
+							key={"Cast " + member.person.name}
+						>
 							<div className="row mt-4">
 								<div className="col-6">
 									<img
-										src={member.character.image.medium}
+										src={
+											(member.character.image !== null &&
+												member.character.image
+													.medium) ||
+											"https://static.tvmaze.com/images/no-img/no-img-portrait-clean.png"
+										}
 										alt={member.character.name}
+										width="210"
 									/>
 								</div>
 								<div className="col-6 ps-4">
