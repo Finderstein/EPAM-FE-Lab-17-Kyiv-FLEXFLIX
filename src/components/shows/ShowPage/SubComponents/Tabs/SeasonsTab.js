@@ -1,6 +1,8 @@
 import { Accordion, Card } from "react-bootstrap";
 
 const SeasonsTab = ({ seasons, episodes }) => {
+	console.log(seasons, episodes);
+
 	return (
 		<div
 			className="tab-pane active"
@@ -10,15 +12,13 @@ const SeasonsTab = ({ seasons, episodes }) => {
 		>
 			<Accordion className="mt-3">
 				{seasons.map((season) => (
-					<Card
+					<Accordion.Item
+						eventKey={"cardSeason" + season.number}
 						className="accordion-card mt-2"
 						key={"cardSeason" + season.number}
 					>
-						<Accordion.Toggle
-							as={Card.Header}
-							eventKey={season.number}
-						>
-							<div className="row">
+						<Accordion.Header>
+							<div className="row w-100">
 								{season.image && (
 									<div className="col-2">
 										<img
@@ -36,64 +36,64 @@ const SeasonsTab = ({ seasons, episodes }) => {
 									</h3>
 
 									<p className="text-muted">
-										{season.episodeOrder} episodes
+										{season.episodeOrder
+											? season.episodeOrder + " episodes"
+											: ""}
 									</p>
 									{season.summary && (
 										<p>
-											{season.summary.replace(
-												/(<([^>]+)>)/gi,
-												""
-											)}
+											{season.summary
+												? season.summary.replace(
+														/(<([^>]+)>)/gi,
+														""
+												  )
+												: ""}
 										</p>
 									)}
 								</div>
 							</div>
-						</Accordion.Toggle>
-						<Accordion.Collapse eventKey={season.number}>
-							<Card.Body>
-								<Accordion>
-									{episodes
-										.filter(
-											(episode) =>
-												episode.season === season.number
-										)
-										.map((episode) => (
-											<Card
-												className="accordion-card"
-												key={
-													"episodeCard" +
-													episode.name +
-													episode.number
-												}
-											>
-												<Accordion.Toggle
-													as={Card.Header}
-													eventKey={episode.number}
-												>
+						</Accordion.Header>
+						<Accordion.Body>
+							<Accordion>
+								{episodes
+									.filter(
+										(episode) =>
+											episode.season === season.number
+									)
+									.map((episode) => (
+										<Accordion.Item
+											eventKey={
+												"episodeCard" + episode.number
+											}
+											className="accordion-card"
+											key={
+												"episodeCard" +
+												episode.name +
+												episode.number
+											}
+										>
+											<Accordion.Header>
+												<div className="row w-100">
 													{episode.number}.{" "}
 													{episode.name}
-												</Accordion.Toggle>
+												</div>
+											</Accordion.Header>
 
-												<Accordion.Collapse
-													eventKey={episode.number}
-												>
-													<Card.Body>
-														<p>
-															{episode.summary !==
-																null &&
-																episode.summary.replace(
-																	/(<([^>]+)>)/gi,
-																	""
-																)}
-														</p>
-													</Card.Body>
-												</Accordion.Collapse>
-											</Card>
-										))}
-								</Accordion>
-							</Card.Body>
-						</Accordion.Collapse>
-					</Card>
+											<Accordion.Body>
+												<p>
+													{episode.summary
+														? episode.summary.replace(
+																/(<([^>]+)>)/gi,
+																""
+														  )
+														: ""}
+												</p>
+											</Accordion.Body>
+										</Accordion.Item>
+									))}
+							</Accordion>
+						</Accordion.Body>
+					</Accordion.Item>
 				))}
 			</Accordion>
 		</div>

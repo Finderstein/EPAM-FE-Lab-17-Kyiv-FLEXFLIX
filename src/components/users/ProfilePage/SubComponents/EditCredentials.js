@@ -160,6 +160,9 @@ const EditCredentials = ({ closer }) => {
 				>
 					Save changes
 				</Button>
+				<Button className="ms-3" variant="secondary" onClick={closer}>
+					Cancel
+				</Button>
 			</Form>
 		</div>
 	);

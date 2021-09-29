@@ -114,7 +114,7 @@ const SignUp = () => {
 					<label htmlFor="userEmail">Email address</label>
 				</div>
 
-				<div className="form-floating">
+				<div className="form-floating mt-1">
 					<input
 						type="text"
 						className="form-control"
@@ -126,7 +126,7 @@ const SignUp = () => {
 					<label htmlFor="userFirstname">First Name</label>
 				</div>
 
-				<div className="form-floating">
+				<div className="form-floating mt-1">
 					<input
 						type="text"
 						className="form-control"
@@ -138,7 +138,7 @@ const SignUp = () => {
 					<label htmlFor="userLastname">Last Name</label>
 				</div>
 
-				<div className="form-floating mt-2 d-flex field-with-popover">
+				<div className="form-floating mt-3 d-flex field-with-popover">
 					<input
 						type="password"
 						className="form-control"
@@ -179,7 +179,7 @@ const SignUp = () => {
 					ref={errorList}
 				></ul>
 
-				<div className="form-floating mt-2">
+				<div className="form-floating mt-1">
 					<input
 						type="password"
 						className="form-control"

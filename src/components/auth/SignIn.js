@@ -19,13 +19,12 @@ const SignIn = () => {
 			setError("");
 			setLoading(true);
 			await signin(emailRef.current.value, passwordRef.current.value);
+			setLoading(false);
 			history.push("/");
 		} catch (e) {
 			console.log(e);
 			setError("Failed to sign in");
 		}
-
-		setLoading(false);
 	};
 
 	return (
@@ -58,15 +57,8 @@ const SignIn = () => {
 					<label htmlFor="userPassword">Password</label>
 				</div>
 
-				<div className="checkbox mb-3 mt-3 text-start">
-					<label>
-						<input type="checkbox" value="remember-me" /> Remember
-						me
-					</label>
-				</div>
-
 				<button
-					className="w-100 btn btn-lg btn-primary"
+					className="w-100 btn btn-lg btn-primary mt-4"
 					type="submit"
 					disabled={loading}
 				>

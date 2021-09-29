@@ -50,13 +50,14 @@ const ShowMainInfo = ({ show }) => {
 							</p>
 							<p className="mb-1">
 								<strong>Schedule: </strong>
-								{show.schedule.time}
-								{" at "}
-								{show.schedule.days.join(", ")}
+								{show.schedule.time ? show.schedule.time : ""}
+								{show.schedule.days.length !== 0
+									? " at " + show.schedule.days.join(", ")
+									: ""}
 							</p>
 							<p className="mb-1">
 								<strong>Runtime: </strong>
-								{show.runtime} minutes
+								{show.runtime ? show.runtime + " minutes" : ""}
 							</p>
 							<p className="mb-1">
 								<strong>Premiere: </strong>

@@ -77,6 +77,9 @@ const EditInfo = ({ closer }) => {
 				<Button variant="primary" type="submit">
 					Save changes
 				</Button>
+				<Button className="ms-3" variant="secondary" onClick={closer}>
+					Cancel
+				</Button>
 			</Form>
 		</div>
 	);

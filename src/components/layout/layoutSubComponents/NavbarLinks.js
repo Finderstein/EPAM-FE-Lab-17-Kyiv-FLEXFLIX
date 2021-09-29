@@ -11,7 +11,7 @@ const NavbarLinks = () => {
 					aria-current="page"
 					id="find-nav"
 				>
-					Find
+					Search
 				</NavLink>
 			</li>
 			<li className="header-link">
