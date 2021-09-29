@@ -6,7 +6,6 @@ import GalleryTab from "./Tabs/GalleryTab";
 import SeasonsTab from "./Tabs/SeasonsTab";
 
 const ShowTabs = ({ show }) => {
-	console.log(show);
 	useEffect(() => {
 		// Activate bootstrap tabs
 		const triggerTabList = [].slice.call(

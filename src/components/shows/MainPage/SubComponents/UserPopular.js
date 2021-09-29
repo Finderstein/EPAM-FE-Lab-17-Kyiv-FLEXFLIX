@@ -1,14 +1,14 @@
 import { useState } from "react";
 import UserPopularShowCard from "./UserPopularShowCard";
 import { getTodayShows } from "../../../../api/tvmaze.api";
-import { useFetchShows } from "../../../hooks/useFetchShows";
+import { useGetAsyncData } from "../../../hooks/useGetAsyncData";
 
 // TO DO: change from todayShows to user popular shows
 
 const UserPopular = () => {
 	const [todayShows, setTodayShows] = useState();
 
-	useFetchShows(() => getTodayShows(11), setTodayShows);
+	useGetAsyncData(() => getTodayShows(11), setTodayShows);
 
 	return (
 		<div className="col-8">

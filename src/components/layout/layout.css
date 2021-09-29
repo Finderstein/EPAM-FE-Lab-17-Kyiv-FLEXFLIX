@@ -58,17 +58,7 @@
 	box-shadow: 0px -9px 0px -5px #ff3232bd inset;
 	color: black !important;
 }
-/* 
-.breadcrumbs {
-	margin-top: 0.8em;
+
+.rounded-circle {
+	object-fit: cover;
 }
-
-.breadcrumbs div div {
-	margin-left: 1em;
-} */
-
-/* @media only screen and (min-width: 992px) {
-	.logo {
-		font-size: 3em;
-	}
-} */

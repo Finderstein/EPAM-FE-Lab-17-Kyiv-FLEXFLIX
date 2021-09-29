@@ -2,12 +2,11 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
-import { useGetUserInfo } from "../../hooks/useGetUserInfo";
+import { useGetAsyncData } from "../../hooks/useGetAsyncData";
 
 const UserAuthorized = () => {
-	const [userInfo, setUserInfo] = useState();
 	const history = useHistory();
-	const { currentUser, getUserInfo, signout } = useAuth();
+	const { userPhoto, signout } = useAuth();
 
 	const handleLogout = async () => {
 		try {
@@ -20,12 +19,10 @@ const UserAuthorized = () => {
 		}
 	};
 
-	useGetUserInfo(currentUser, getUserInfo, setUserInfo);
-
 	return (
 		<div className="dropdown text-end d-flex align-items-center">
 			<Link
-				to="profile"
+				to="/profile"
 				className="d-block text-decoration-none dropdown-toggle"
 				id="dropdownUser1"
 				data-bs-toggle="dropdown"
@@ -33,9 +30,9 @@ const UserAuthorized = () => {
 			>
 				<img
 					src={
-						userInfo
-							? userInfo.photo
-							: "https://e7.pngegg.com/pngimages/753/432/png-clipart-user-profile-2018-in-sight-user-conference-expo-business-default-business-angle-service-thumbnail.png"
+						userPhoto
+							? userPhoto
+							: "https://static.tvmaze.com/images/no-img/no-img-portrait-clean.png"
 					}
 					alt="mdo"
 					width="80"
@@ -48,7 +45,7 @@ const UserAuthorized = () => {
 				aria-labelledby="dropdownUser1"
 			>
 				<li>
-					<Link className="dropdown-item" to="profile">
+					<Link className="dropdown-item" to="/profile">
 						Profile
 					</Link>
 				</li>

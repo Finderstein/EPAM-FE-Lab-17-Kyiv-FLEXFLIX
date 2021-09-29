@@ -14,14 +14,14 @@ const SignIn = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("handleSubmit");
 
 		try {
 			setError("");
 			setLoading(true);
 			await signin(emailRef.current.value, passwordRef.current.value);
 			history.push("/");
-		} catch {
+		} catch (e) {
+			console.log(e);
 			setError("Failed to sign in");
 		}
 

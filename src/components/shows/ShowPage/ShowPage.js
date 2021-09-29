@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getShow } from "../../../api/tvmaze.api";
-import { useFetchShows } from "../../hooks/useFetchShows";
+import { useGetAsyncData } from "../../hooks/useGetAsyncData";
 import "../shows.css";
 import ShowMainInfo from "./SubComponents/ShowMainInfo";
 import ShowTabs from "./SubComponents/ShowTabs";
@@ -12,7 +12,7 @@ const ShowPage = ({
 }) => {
 	const [show, setShow] = useState();
 
-	useFetchShows(() => getShow(id), setShow);
+	useGetAsyncData(() => getShow(id), setShow);
 
 	return (
 		<>

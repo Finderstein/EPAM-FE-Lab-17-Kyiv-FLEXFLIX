@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
-import { useGetUserInfo } from "../../hooks/useGetUserInfo";
+import { useGetAsyncData } from "../../hooks/useGetAsyncData";
 import ProfileMainInfo from "./SubComponents/ProfileMainInfo";
 import ProfileTabs from "./SubComponents/ProfileTabs";
 
 const Profile = () => {
-	const [userInfo, setUserInfo] = useState();
-	const { currentUser, getUserInfo } = useAuth();
+	// const [userInfo, setUserInfo] = useState();
+	// const { currentUser, getUserInfo } = useAuth();
 
-	useGetUserInfo(currentUser, getUserInfo, setUserInfo);
+	// useGetAsyncData(() => getUserInfo(currentUser), setUserInfo);
 
 	return (
 		<>
-			<ProfileMainInfo userInfo={userInfo} />
-			<ProfileTabs userInfo={userInfo} />
+			{<ProfileMainInfo />}
+			{/* {userInfo && <ProfileMainInfo userInfo={userInfo} />} */}
+			{/* userInfo && <ProfileTabs userInfo={userInfo} /> */}
 		</>
 	);
 };

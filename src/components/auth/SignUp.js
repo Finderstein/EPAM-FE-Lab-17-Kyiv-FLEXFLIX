@@ -61,16 +61,11 @@ const SignUp = () => {
 	};
 
 	const validateRepeatPassword = () => {
-		console.log(repeatPass.current.value);
-		console.log(validInfo);
-
 		if (repeatPass.current.value !== userPass.current.value) {
 			repeatPassError.current.classList.remove("visually-hidden");
 		} else {
 			repeatPassError.current.classList.add("visually-hidden");
 		}
-
-		console.log(repeatPass.current.value, userPass.current.value);
 
 		setValidInfo({
 			...validInfo,

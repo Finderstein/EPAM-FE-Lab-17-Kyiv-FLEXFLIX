@@ -5,24 +5,6 @@ import NavbarLinks from "./layoutSubComponents/NavbarLinks";
 import NavbarAuth from "./layoutSubComponents/NavbarAuth";
 
 const Navbar = () => {
-	// const test = async () => {
-	// 	// Solution 1
-	// 	const querySnapshot = await getDocs(collection(dbFirestore, "test"));
-	// 	querySnapshot.forEach((doc) => {
-	// 		// doc.data() is never undefined for query doc snapshots
-	// 		console.log(doc.id, " => ", doc.data());
-	// 	});
-
-	// 	// Solution 2
-	// 	const citiesCol = collection(dbFirestore, "test");
-	// 	const citySnapshot = await getDocs(citiesCol);
-	// 	const cityList = citySnapshot.docs.map((doc) => doc.data());
-	// 	cityList.forEach((doc) => {
-	// 		// doc.data() is never undefined for query doc snapshots
-	// 		console.log(doc);
-	// 	});
-	// };
-
 	return (
 		<>
 			<header className="bg-dark text-white">

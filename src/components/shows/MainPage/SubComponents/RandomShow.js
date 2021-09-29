@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import RandomShowCard from "./RandomShowCard";
 import { getRandomShows } from "../../../../api/tvmaze.api";
-import { useFetchShows } from "../../../hooks/useFetchShows";
+import { useGetAsyncData } from "../../../hooks/useGetAsyncData";
 import _ from "lodash";
 import "../../shows.css";
 
@@ -11,15 +11,13 @@ const RandomShow = () => {
 	const tryTextRef = useRef();
 	const rndWrapRef = useRef();
 
-	useFetchShows(getRandomShows, setRandomShows);
+	useGetAsyncData(getRandomShows, setRandomShows);
 
 	const tryAgain = async () => {
 		setRandomShows(await getRandomShows());
 		tryTextRef.current.scrollIntoView();
 		rndWrapRef.current.style.display = "none";
 	};
-
-	console.log(randomShows);
 
 	return (
 		<div className="col-3">
