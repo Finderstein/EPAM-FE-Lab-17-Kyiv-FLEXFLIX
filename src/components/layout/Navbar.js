@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
 import "./layout.css";
-import "react-tabs/style/react-tabs.css";
 import NavbarLinks from "./layoutSubComponents/NavbarLinks";
 import NavbarAuth from "./layoutSubComponents/NavbarAuth";
+import { useHistory } from "react-router";
 
 const Navbar = () => {
+	const history = useHistory();
+
+	const keyPressed = (e) => {
+		if (e.key === "Enter" || e.keyCode == 13) {
+			history.push(`/find?name=${e.target.value}`);
+		}
+	};
 	return (
 		<>
 			<header className="bg-dark text-white">
@@ -21,14 +28,16 @@ const Navbar = () => {
 							<NavbarLinks />
 						</ul>
 
-						<form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex align-items-center">
+						<div className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex align-items-center">
 							<input
 								type="search"
 								className="form-control form-control-dark"
 								placeholder="Search..."
 								aria-label="Search"
+								onKeyUp={keyPressed}
+								id="navbar-search"
 							/>
-						</form>
+						</div>
 						<NavbarAuth />
 					</div>
 				</div>

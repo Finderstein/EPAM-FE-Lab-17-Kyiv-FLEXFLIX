@@ -12,7 +12,11 @@ const complexFilter = (array, data) => {
 			validShow = show.name.toLowerCase().includes(data.query);
 		}
 		if (data.country !== "") {
-			validShow = show.country.name === data.country;
+			if (!show.network) {
+				return false;
+			}
+
+			validShow = show.network.country.name === data.country;
 		}
 		if (data.genre !== "") {
 			validShow = show.genres.includes(data.genre);

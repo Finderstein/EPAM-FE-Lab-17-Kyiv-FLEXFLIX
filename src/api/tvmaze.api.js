@@ -20,7 +20,7 @@ export const getShow = async (showID) => {
 };
 
 // Get airing today shows
-export const getTodayShows = async (targetNumber = 8) => {
+export const getTodayShows = async (targetNumber = 8, sliceArr = true) => {
 	const response = await fetch(
 		`https://api.tvmaze.com/schedule?date=${strNow}`
 	);
@@ -33,15 +33,17 @@ export const getTodayShows = async (targetNumber = 8) => {
 	shows.sort((a, b) => +b.weight - +a.weight); // Sort by weight AKA popularity
 
 	const uniqueID = new Set();
-	const todayShows = shows
-		.filter((show) => {
-			if (!uniqueID.has(show.id)) {
-				uniqueID.add(show.id);
-				return true;
-			}
-			return false;
-		}) // Only unique entries by show ID
-		.slice(0, targetNumber);
+	const todayShows = shows.filter((show) => {
+		if (!uniqueID.has(show.id)) {
+			uniqueID.add(show.id);
+			return true;
+		}
+		return false;
+	}); // Only unique entries by show ID
+
+	if (sliceArr) {
+		return todayShows.slice(0, targetNumber);
+	}
 
 	return todayShows;
 };

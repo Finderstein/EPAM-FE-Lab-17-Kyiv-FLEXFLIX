@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
+import useQuery from "../../hooks/useQuery";
 import useShowSearch from "../../hooks/useShowSearch";
-import SearchShowCard from "./SubComponents/SearchShowCard";
+import SmallShowCard from "../UtilityComponents/SmallShowCard";
 import SelectCountry from "./SubComponents/Selectors/SelectCountry";
 import SelectGenre from "./SubComponents/Selectors/SelectGenre";
 import SelectLanguage from "./SubComponents/Selectors/SelectLanguage";
@@ -11,6 +12,8 @@ import SelectStatus from "./SubComponents/Selectors/SelectStatus";
 import SelectType from "./SubComponents/Selectors/SelectType";
 
 const FindShowPage = () => {
+	const query = useQuery();
+	const nameRef = useRef();
 	const [pageNumber, setPageNumber] = useState(1);
 	const [data, setData] = useState({
 		status: "",
@@ -54,6 +57,20 @@ const FindShowPage = () => {
 		setPageNumber(1);
 	};
 
+	useEffect(() => {
+		const name = query.get("name");
+		if (name) {
+			setData((prevData) => {
+				return { ...prevData, query: name };
+			});
+			nameRef.current.value = name;
+		}
+
+		return () => {
+			document.getElementById("navbar-search").value = "";
+		};
+	}, []);
+
 	return (
 		<div className="container mt-3">
 			<h2 className="">Find something that you would like to see</h2>
@@ -72,7 +89,7 @@ const FindShowPage = () => {
 
 				<Form.Group as={Col} controlId="formGridZip">
 					<Form.Label>Type show name</Form.Label>
-					<Form.Control type="text" name="query" />
+					<Form.Control type="text" name="query" ref={nameRef} />
 					<Form.Text className="text-muted">
 						Because of the problems with API search by show name
 						will return maximum 10 shows. That's why you may not
@@ -87,20 +104,25 @@ const FindShowPage = () => {
 				</Button>
 			</Form>
 			<div className="row">
-				{shows &&
+				{shows && shows.length !== 0 ? (
 					shows.map((show, index) => {
 						if (shows.length === index + 1) {
 							return (
-								<SearchShowCard
+								<SmallShowCard
 									ref={lastBookElementRef}
 									key={show.id}
 									show={show}
 								/>
 							);
 						} else {
-							return <SearchShowCard key={show.id} show={show} />;
+							return <SmallShowCard key={show.id} show={show} />;
 						}
-					})}
+					})
+				) : (
+					<p className="text-muted mt-3 h3">
+						No shows with this paramaterers
+					</p>
+				)}
 				{loading && (
 					<div
 						className="spinner-border"

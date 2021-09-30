@@ -10,41 +10,25 @@ import {
 } from "@firebase/auth";
 import { dbFirestore, auth, storage } from "../config/fbConfig";
 import {
+	collection,
 	doc,
 	getDoc,
+	getDocs,
 	onSnapshot,
 	setDoc,
 	updateDoc,
 } from "@firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 
-const AuthContext = React.createContext();
+const UserContext = React.createContext();
 
-export const useAuth = () => {
-	return useContext(AuthContext);
+export const useUser = () => {
+	return useContext(UserContext);
 };
 
-// const test = async () => {
-// 	// Solution 1
-// 	const querySnapshot = await getDocs(collection(dbFirestore, "test"));
-// 	querySnapshot.forEach((doc) => {
-// 		// doc.data() is never undefined for query doc snapshots
-// 		console.log(doc.id, " => ", doc.data());
-// 	});
-
-// 	// Solution 2
-// 	const citiesCol = collection(dbFirestore, "test");
-// 	const citySnapshot = await getDocs(citiesCol);
-// 	const cityList = citySnapshot.docs.map((doc) => doc.data());
-// 	cityList.forEach((doc) => {
-// 		// doc.data() is never undefined for query doc snapshots
-// 		console.log(doc);
-// 	});
-// };
-
-export const AuthProvider = ({ children }) => {
+export const UserProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState();
-	const [userInfo, setUserInfo] = useState();
+	const [currentUserInfo, setCurrentUserInfo] = useState();
 	const [userPhoto, setUserPhoto] = useState();
 	const [loading, setLoading] = useState(true);
 
@@ -67,6 +51,7 @@ export const AuthProvider = ({ children }) => {
 	}
 
 	const signin = (email, password) => {
+		setUserPhoto(null);
 		return signInWithEmailAndPassword(auth, email, password);
 	};
 
@@ -78,12 +63,41 @@ export const AuthProvider = ({ children }) => {
 		return auth.sendPasswordResetEmail(email);
 	};
 
-	const getUserInfo = async (user) => {
-		if (user) {
-			const docRef = doc(dbFirestore, "users", user.uid);
-			return (await getDoc(docRef)).data();
+	const getUserInfo = async (uid) => {
+		const docRef = doc(dbFirestore, "users", uid);
+		return (await getDoc(docRef)).data();
+	};
+
+	const getProfilePhoto = async (user) => {
+		if (!user || user.photo === "") {
+			return null;
 		}
-		return null;
+
+		return getDownloadURL(ref(storage, user.photo)).then((url) => {
+			return url;
+		});
+	};
+
+	const getAllUsers = async () => {
+		const users = [];
+		const querySnapshot = await getDocs(collection(dbFirestore, "users"));
+		querySnapshot.forEach((doc) => {
+			users.push({ uid: doc.id, userInfo: doc.data() });
+		});
+
+		return users;
+	};
+
+	const getAllUsersWithoutSelf = async () => {
+		const users = [];
+		const querySnapshot = await getDocs(collection(dbFirestore, "users"));
+		querySnapshot.forEach((doc) => {
+			if (currentUser.uid !== doc.id) {
+				users.push({ uid: doc.id, userInfo: doc.data() });
+			}
+		});
+
+		return users;
 	};
 
 	const updateUserEmail = async (email, pass, newEmail) => {
@@ -102,7 +116,6 @@ export const AuthProvider = ({ children }) => {
 
 	const updateUserPassword = async (email, oldPass, newPass) => {
 		const credentials = EmailAuthProvider.credential(email, oldPass);
-		console.log(email, oldPass, newPass, credentials);
 		const user = auth.currentUser;
 		return reauthenticateWithCredential(user, credentials)
 			.then(() => {
@@ -127,31 +140,8 @@ export const AuthProvider = ({ children }) => {
 		});
 	};
 
-	const updateInfo = async (data) => {
-		return updateDoc(doc(dbFirestore, "users", currentUser.uid), {
-			firstname: data.firstname,
-			lastname: data.lastname,
-			about: data.about,
-			favGenres: data.favGenres,
-		});
-
-		// .then(() => {
-		// 	const credential = promptForCredentials();
-		// 	return reauthenticateWithCredential(currentUser, credential);
-		// })
-		// .then(() => {
-		// 	return updateUserEmail(data.email);
-		// });
-	};
-
-	const getProfilePhoto = (user) => {
-		if (!user) {
-			return null;
-		}
-
-		return getDownloadURL(ref(storage, user.photo)).then((url) => {
-			return url;
-		});
+	const updateUserInfo = async (uid, data) => {
+		return updateDoc(doc(dbFirestore, "users", uid), data);
 	};
 
 	useEffect(() => {
@@ -172,11 +162,15 @@ export const AuthProvider = ({ children }) => {
 			doc(dbFirestore, "users", currentUser.uid),
 			(doc) => {
 				const user = doc.data();
-				setUserInfo(user);
-				getDownloadURL(ref(storage, user.photo)).then((url) => {
-					setUserPhoto(url);
+				setCurrentUserInfo(user);
+				if (user.photo !== "") {
+					getDownloadURL(ref(storage, user.photo)).then((url) => {
+						setUserPhoto(url);
+						setLoading(false);
+					});
+				} else {
 					setLoading(false);
-				});
+				}
 			}
 		);
 
@@ -185,7 +179,7 @@ export const AuthProvider = ({ children }) => {
 
 	const userAPI = {
 		currentUser,
-		userInfo,
+		currentUserInfo,
 		userPhoto,
 		signin,
 		signup,
@@ -193,8 +187,10 @@ export const AuthProvider = ({ children }) => {
 		updateUserPassword,
 		updateUserEmail,
 		updateProfilePhoto,
-		updateInfo,
+		updateUserInfo,
 		getUserInfo,
+		getAllUsers,
+		getAllUsersWithoutSelf,
 		getProfilePhoto,
 		resetPassword,
 		updateEmail,
@@ -202,8 +198,8 @@ export const AuthProvider = ({ children }) => {
 	};
 
 	return (
-		<AuthContext.Provider value={userAPI}>
+		<UserContext.Provider value={userAPI}>
 			{!loading && children}
-		</AuthContext.Provider>
+		</UserContext.Provider>
 	);
 };

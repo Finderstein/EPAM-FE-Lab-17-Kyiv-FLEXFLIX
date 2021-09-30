@@ -61,3 +61,7 @@
 .hide-text {
 	-webkit-text-security: disc !important;
 }
+
+.card-img {
+	object-fit: cover;
+}

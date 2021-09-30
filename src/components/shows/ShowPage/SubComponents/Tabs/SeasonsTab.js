@@ -1,8 +1,6 @@
 import { Accordion, Card } from "react-bootstrap";
 
 const SeasonsTab = ({ seasons, episodes }) => {
-	console.log(seasons, episodes);
-
 	return (
 		<div
 			className="tab-pane active"

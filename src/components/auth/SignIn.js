@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
 import { Alert } from "react-bootstrap";
-import { useAuth } from "../../context/AuthContext";
+import { useUser } from "../../context/UserContext";
 import { useHistory } from "react-router";
 import "./auth.css";
 
 const SignIn = () => {
 	const emailRef = useRef();
 	const passwordRef = useRef();
-	const { signin } = useAuth();
+	const { signin } = useUser();
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 	const history = useHistory();

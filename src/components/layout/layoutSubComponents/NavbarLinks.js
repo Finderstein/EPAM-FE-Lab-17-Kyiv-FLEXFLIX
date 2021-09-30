@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom";
+import { useUser } from "../../../context/UserContext";
 import "../layout.css";
 
 const NavbarLinks = () => {
+	const { currentUser } = useUser();
 	return (
 		<>
 			<li className="header-link">
@@ -16,13 +18,25 @@ const NavbarLinks = () => {
 			</li>
 			<li className="header-link">
 				<NavLink
-					to="/users"
+					to="/airing-today"
 					className="nav-link px-4 text-white d-flex align-items-center"
 					aria-current="page"
-					id="users-nav"
+					id="find-nav"
 				>
-					Users
+					Today
 				</NavLink>
+			</li>
+			<li className="header-link">
+				{currentUser && (
+					<NavLink
+						to="/users"
+						className="nav-link px-4 text-white d-flex align-items-center"
+						aria-current="page"
+						id="users-nav"
+					>
+						Users
+					</NavLink>
+				)}
 			</li>
 		</>
 	);

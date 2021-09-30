@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-import { useAuth } from "../../../../context/AuthContext";
+import { useUser } from "../../../../context/UserContext";
 import "../../users.css";
 
 const EditCredentials = ({ closer }) => {
-	const { currentUser, updateUserPassword, updateUserEmail } = useAuth();
+	const { currentUser, updateUserPassword, updateUserEmail } = useUser();
 	const [validInfo, setValidInfo] = useState({
 		pass: true,
 		repeatPass: false,
@@ -89,7 +89,7 @@ const EditCredentials = ({ closer }) => {
 	};
 
 	return (
-		<div className="col-sm-12 col-md-7 ms-3 mt-2">
+		<div className="col-sm-12 col-md-9 px-4 mt-2">
 			{error && <Alert variant="danger">{error}</Alert>}
 			<Form onSubmit={handleSubmit}>
 				<Form.Group

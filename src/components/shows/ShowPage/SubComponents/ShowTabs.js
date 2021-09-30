@@ -21,8 +21,6 @@ const ShowTabs = ({ show }) => {
 		});
 	}, []);
 
-	console.log(show, show._embedded.cast, show._embedded.crew);
-
 	return (
 		<div className="container mt-3 p-3">
 			<ul className="nav nav-tabs" id="showTab" role="tablist">

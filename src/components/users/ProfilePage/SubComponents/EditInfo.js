@@ -1,13 +1,12 @@
 import { Button, Form } from "react-bootstrap";
-import { useAuth } from "../../../../context/AuthContext";
+import { useUser } from "../../../../context/UserContext";
 import DropdownMultiselect from "react-multiselect-dropdown-bootstrap";
 import { genresOptions } from "../../../../utilities/genresArray";
 import { useEffect, useState } from "react";
 
 const EditInfo = ({ closer }) => {
-	const { userInfo, updateInfo } = useAuth();
-	console.log(userInfo);
-	const [userGenres, setUserGenres] = useState(userInfo.favGenres);
+	const { currentUserInfo, updateUserInfo, currentUser } = useUser();
+	const [userGenres, setUserGenres] = useState(currentUserInfo.favGenres);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -16,7 +15,7 @@ const EditInfo = ({ closer }) => {
 		const formDataObj = Object.fromEntries(formData.entries());
 
 		try {
-			await updateInfo({
+			await updateUserInfo(currentUser.uid, {
 				favGenres: userGenres,
 				about: formDataObj.about,
 				firstname: formDataObj.firstname,
@@ -29,7 +28,7 @@ const EditInfo = ({ closer }) => {
 	};
 
 	return (
-		<div className="col-sm-12 col-md-7 ms-3 mt-2">
+		<div className="col-sm-12 col-md-9 px-4 mt-2">
 			<Form onSubmit={handleSubmit}>
 				<Form.Group
 					className="mb-3"
@@ -39,7 +38,7 @@ const EditInfo = ({ closer }) => {
 					<Form.Control
 						type="text"
 						name="firstname"
-						defaultValue={userInfo.firstname}
+						defaultValue={currentUserInfo.firstname}
 					/>
 				</Form.Group>
 				<Form.Group
@@ -50,7 +49,7 @@ const EditInfo = ({ closer }) => {
 					<Form.Control
 						type="text"
 						name="lastname"
-						defaultValue={userInfo.lastname}
+						defaultValue={currentUserInfo.lastname}
 					/>
 				</Form.Group>
 				<Form.Group
@@ -62,7 +61,7 @@ const EditInfo = ({ closer }) => {
 						name="about"
 						as="textarea"
 						rows={5}
-						defaultValue={userInfo.about}
+						defaultValue={currentUserInfo.about}
 					/>
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="my_multiselect_field">

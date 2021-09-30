@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../../context/AuthContext";
-import { useGetAsyncData } from "../../hooks/useGetAsyncData";
+import { useUser } from "../../../context/UserContext";
 
 const UserAuthorized = () => {
 	const history = useHistory();
-	const { userPhoto, signout } = useAuth();
+	const { userPhoto, signout } = useUser();
 
 	const handleLogout = async () => {
 		try {

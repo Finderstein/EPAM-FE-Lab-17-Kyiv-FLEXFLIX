@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import "../../shows.css";
+import "../shows.css";
 
-const AiringTodayShowCard = ({ id, name, image: { medium }, summary }) => {
+const BigShowCard = ({ id, name, image: { medium }, summary }) => {
 	const [loading, setLoading] = useState(true);
 
 	return (
@@ -17,7 +17,7 @@ const AiringTodayShowCard = ({ id, name, image: { medium }, summary }) => {
 				</div>
 				<img
 					style={{ visibility: loading ? "hidden" : "visible" }}
-					className="card-img-top"
+					className="card-img"
 					src={medium}
 					alt={name}
 					onLoad={() => setLoading(false)}
@@ -49,4 +49,4 @@ const AiringTodayShowCard = ({ id, name, image: { medium }, summary }) => {
 	);
 };
 
-export default AiringTodayShowCard;
+export default BigShowCard;

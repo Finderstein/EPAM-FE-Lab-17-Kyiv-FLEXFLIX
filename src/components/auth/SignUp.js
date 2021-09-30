@@ -1,7 +1,7 @@
 import ReactTooltip from "react-tooltip";
 import { useHistory } from "react-router";
 import { useRef, useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useUser } from "../../context/UserContext";
 import { Alert } from "react-bootstrap";
 import "./auth.css";
 
@@ -14,7 +14,7 @@ const SignUp = () => {
 	const [loading, setLoading] = useState(false);
 	const history = useHistory();
 
-	const { signup } = useAuth();
+	const { signup } = useUser();
 
 	const email = useRef();
 	const firstname = useRef();

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { useAuth } from "../../../../context/AuthContext";
+import { useUser } from "../../../../context/UserContext";
 import { useGetAsyncData } from "../../../hooks/useGetAsyncData";
 import "../../users.css";
 import EditCredentials from "./EditCredentials";
@@ -9,7 +9,7 @@ import ShowInfo from "./ShowInfo";
 
 const ProfileMainInfo = () => {
 	const [editForm, setEditForm] = useState(false);
-	const { userInfo, userPhoto, updateProfilePhoto } = useAuth();
+	const { currentUserInfo, userPhoto, updateProfilePhoto } = useUser();
 	const fileInput = useRef();
 
 	const updateProfilePicture = async (e) => {
@@ -24,7 +24,7 @@ const ProfileMainInfo = () => {
 
 	return (
 		<div className="container mt-3 p-3 show-wrap">
-			{userInfo && (
+			{currentUserInfo && (
 				<div className="row">
 					<div className="col-sm-12 col-md-3 d-flex flex-column align-items-center">
 						<div
@@ -46,7 +46,9 @@ const ProfileMainInfo = () => {
 										: "https://static.tvmaze.com/images/no-img/no-img-portrait-clean.png"
 								}
 								alt={
-									userInfo.firstname + " " + userInfo.lastname
+									currentUserInfo.firstname +
+									" " +
+									currentUserInfo.lastname
 								}
 								width="300"
 							/>

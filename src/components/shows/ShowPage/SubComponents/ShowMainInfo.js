@@ -1,13 +1,57 @@
+import { Button } from "react-bootstrap";
+import { useUser } from "../../../../context/UserContext";
+
 const ShowMainInfo = ({ show }) => {
+	const { currentUser, currentUserInfo, updateUserInfo } = useUser();
+
+	const handleAddFavourite = async () => {
+		try {
+			await updateUserInfo(currentUser.uid, {
+				favourite: [...currentUserInfo.favourite, show.id],
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleRemoveFavourite = async () => {
+		try {
+			await updateUserInfo(currentUser.uid, {
+				favourite: currentUserInfo.favourite.filter(
+					(favourite) => favourite !== show.id
+				),
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<div className="container mt-3 p-3 show-wrap">
 			<div className="row">
-				<div className="col-sm-12 col-md-2">
+				<div className="col-sm-12 col-md-2 d-flex flex-column align-items-center ms-2">
 					<img
 						className="img-shadow"
 						src={show.image.medium}
 						alt={show.name}
 					/>
+					{currentUserInfo.favourite.includes(show.id) ? (
+						<Button
+							className="mt-4 px-4"
+							variant="danger"
+							onClick={handleRemoveFavourite}
+						>
+							Remove from favourite
+						</Button>
+					) : (
+						<Button
+							className="mt-4 px-4"
+							variant="success"
+							onClick={handleAddFavourite}
+						>
+							Add to favourite
+						</Button>
+					)}
 				</div>
 				<div className="col-sm-12 col-md-9 ms-3">
 					<h2 className="h2">{show.name}</h2>

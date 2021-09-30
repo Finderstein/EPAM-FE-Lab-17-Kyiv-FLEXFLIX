@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import { Link } from "react-router-dom";
 
-const SearchShowCard = forwardRef(({ show }, ref) => {
+const SmallShowCard = forwardRef(({ show }, ref) => {
 	return (
 		<div
 			className="col-sm-4 col-lg-2 mt-4 d-flex align-items-stretch"
@@ -46,4 +46,4 @@ const SearchShowCard = forwardRef(({ show }, ref) => {
 	);
 });
 
-export default SearchShowCard;
+export default SmallShowCard;

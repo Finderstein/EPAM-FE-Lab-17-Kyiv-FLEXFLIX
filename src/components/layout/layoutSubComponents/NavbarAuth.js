@@ -1,9 +1,9 @@
-import { useAuth } from "../../../context/AuthContext";
+import { useUser } from "../../../context/UserContext";
 import UserNotAuthorized from "./UserNotAuthorized";
 import UserAuthorized from "./UserAuthorized";
 
 const NavbarAuth = () => {
-	const { currentUser } = useAuth();
+	const { currentUser } = useUser();
 
 	return <>{currentUser ? <UserAuthorized /> : <UserNotAuthorized />}</>;
 };
