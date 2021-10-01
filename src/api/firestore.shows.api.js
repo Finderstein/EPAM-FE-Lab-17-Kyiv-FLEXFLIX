@@ -24,12 +24,8 @@ export const getAllLikedShows = async () => {
 
 	let showsArray = [];
 	showsSnapshot.forEach((doc) => {
-		console.log(doc, doc.data());
-		// doc.data() is never undefined for query doc snapshots
 		showsArray.push({ id: doc.id, showInfo: doc.data() });
 	});
-
-	console.log(showsArray);
 
 	showsArray.sort(
 		(a, b) => b.showInfo.liked.length - a.showInfo.liked.length
@@ -37,8 +33,6 @@ export const getAllLikedShows = async () => {
 	const filteredShows = showsArray.filter(
 		(show) => show.showInfo.liked.length > 0
 	);
-
-	console.log("filteredShows", filteredShows);
 
 	return filteredShows;
 };

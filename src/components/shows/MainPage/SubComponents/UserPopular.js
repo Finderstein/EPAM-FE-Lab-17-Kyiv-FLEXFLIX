@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import UserPopularShowCard from "./UserPopularShowCard";
-import { getTodayShows } from "../../../../api/tvmaze.api";
-import { useGetAsyncData } from "../../../hooks/useGetAsyncData";
 import { getAllLikedShows } from "../../../../api/firestore.shows.api";
 import { Button } from "react-bootstrap";
-
-// TO DO: change from todayShows to user popular shows
 
 const UserPopular = () => {
 	const [allLikedShows, setAllLikedShows] = useState([]);
@@ -26,14 +22,9 @@ const UserPopular = () => {
 		}
 	}, [allLikedShows]);
 
-	const displayAllLikedShows = () => {
-		setDisplayLikedShows(allLikedShows);
-	};
-
 	return (
 		<div className="col-8">
 			<h2 className="mb-4">You may be interested</h2>
-			{/* заглушка, потім будуть шоу з лайками від користувачів*/}
 			{displayLikedShows &&
 				displayLikedShows.map((show) => (
 					<UserPopularShowCard
