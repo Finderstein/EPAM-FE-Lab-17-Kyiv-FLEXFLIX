@@ -1,9 +1,8 @@
 import * as bootstrap from "bootstrap";
 import { useEffect } from "react";
-import CastTab from "./Tabs/CastTab";
-import CrewTab from "./Tabs/CrewTab";
 import GalleryTab from "./Tabs/GalleryTab";
 import SeasonsTab from "./Tabs/SeasonsTab";
+import PersonsTab from "./Tabs/PersonsTab";
 
 const ShowTabs = ({ show }) => {
 	useEffect(() => {
@@ -87,8 +86,8 @@ const ShowTabs = ({ show }) => {
 					seasons={show._embedded.seasons}
 					episodes={show._embedded.episodes}
 				/>
-				<CastTab cast={show._embedded.cast} />
-				<CrewTab crew={show._embedded.crew} />
+				<PersonsTab persons={show._embedded.cast} type="cast" />
+				<PersonsTab persons={show._embedded.crew} type="crew" />
 				<GalleryTab images={show._embedded.images} />
 			</div>
 		</div>

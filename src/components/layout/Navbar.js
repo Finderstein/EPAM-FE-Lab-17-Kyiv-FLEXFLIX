@@ -8,7 +8,7 @@ const Navbar = () => {
 	const history = useHistory();
 
 	const keyPressed = (e) => {
-		if (e.key === "Enter" || e.keyCode == 13) {
+		if (e.key === "Enter" || e.keyCode === 13) {
 			history.push(`/find?name=${e.target.value}`);
 		}
 	};

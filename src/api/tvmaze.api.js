@@ -5,7 +5,7 @@ const strNow =
 	"-" +
 	("0" + (now.getMonth() + 1)).slice(-2) +
 	"-" +
-	now.getUTCDate();
+	("0" + (now.getUTCDate() + 1)).slice(-2);
 
 // Get specific show by id
 export const getShow = async (showID) => {

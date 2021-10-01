@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-import { useUser } from "../../../../context/UserContext";
-import "../../users.css";
+import { useUser } from "../../../contexts/UserContext";
+import "../../users/users.css";
 
 const EditCredentials = ({ closer }) => {
 	const { currentUser, updateUserPassword, updateUserEmail } = useUser();

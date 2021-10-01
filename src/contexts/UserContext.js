@@ -30,9 +30,13 @@ export const UserProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState();
 	const [currentUserInfo, setCurrentUserInfo] = useState();
 	const [userPhoto, setUserPhoto] = useState();
+	const [otherUserInfo, setOtherUserInfo] = useState();
+	const [otherUserPhoto, setOtherUserPhoto] = useState();
+	const [otherUserUID, setOtherUserUID] = useState();
+
 	const [loading, setLoading] = useState(true);
 
-	function signup(email, password, firstname, lastname) {
+	const signup = async (email, password, firstname, lastname) => {
 		return createUserWithEmailAndPassword(auth, email, password).then(
 			(resp) => {
 				return setDoc(doc(dbFirestore, "users", resp.user.uid), {
@@ -43,12 +47,13 @@ export const UserProvider = ({ children }) => {
 					favGenres: [],
 					photo: "",
 					friends: [],
+					notifications: [],
 					favourite: [],
 					recommendedToUser: [],
 				});
 			}
 		);
-	}
+	};
 
 	const signin = (email, password) => {
 		setUserPhoto(null);
@@ -59,15 +64,16 @@ export const UserProvider = ({ children }) => {
 		return signOut(auth);
 	};
 
-	const resetPassword = (email) => {
-		return auth.sendPasswordResetEmail(email);
-	};
-
 	const getUserInfo = async (uid) => {
 		const docRef = doc(dbFirestore, "users", uid);
 		return (await getDoc(docRef)).data();
 	};
 
+	// Unfortunately this function is pretty slow, so expect some delay everywhere this function is used
+	// This function is used for:
+	// 	1.Navbar user photo
+	// 	2.AllUsersPage for user cards
+	//  3.ProfilePage and UserPage for user photo and friends
 	const getProfilePhoto = async (user) => {
 		if (!user || user.photo === "") {
 			return null;
@@ -145,6 +151,7 @@ export const UserProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
+		setLoading(true);
 		const unsubscribeAuth = auth.onAuthStateChanged((user) => {
 			setCurrentUser(user);
 			setLoading(false);
@@ -157,6 +164,7 @@ export const UserProvider = ({ children }) => {
 		if (!currentUser) {
 			return;
 		}
+		setLoading(true);
 
 		const unsubscribeInfo = onSnapshot(
 			doc(dbFirestore, "users", currentUser.uid),
@@ -177,10 +185,41 @@ export const UserProvider = ({ children }) => {
 		return unsubscribeInfo;
 	}, [currentUser]);
 
+	const subscribeToOtherUser = (uid) => {
+		setOtherUserUID(uid);
+	};
+
+	useEffect(() => {
+		if (!otherUserUID) {
+			return;
+		}
+		setLoading(true);
+
+		const unsubscribeOther = onSnapshot(
+			doc(dbFirestore, "users", otherUserUID),
+			(doc) => {
+				const user = doc.data();
+				setOtherUserInfo(user);
+				if (user.photo !== "") {
+					getDownloadURL(ref(storage, user.photo)).then((url) => {
+						setOtherUserPhoto(url);
+						setLoading(false);
+					});
+				} else {
+					setLoading(false);
+				}
+			}
+		);
+
+		return unsubscribeOther;
+	}, [otherUserUID]);
+
 	const userAPI = {
 		currentUser,
 		currentUserInfo,
 		userPhoto,
+		otherUserInfo,
+		otherUserPhoto,
 		signin,
 		signup,
 		signout,
@@ -192,9 +231,9 @@ export const UserProvider = ({ children }) => {
 		getAllUsers,
 		getAllUsersWithoutSelf,
 		getProfilePhoto,
-		resetPassword,
 		updateEmail,
 		updatePassword,
+		subscribeToOtherUser,
 	};
 
 	return (

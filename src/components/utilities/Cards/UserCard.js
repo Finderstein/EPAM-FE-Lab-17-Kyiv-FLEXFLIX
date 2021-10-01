@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useUser } from "../../../../context/UserContext";
-import "../../users.css";
+import { useUser } from "../../../contexts/UserContext";
+import "../../users/users.css";
 
 const UserCard = ({ user }) => {
 	const [photo, setPhoto] = useState();

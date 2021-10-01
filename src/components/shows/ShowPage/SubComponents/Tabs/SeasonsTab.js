@@ -1,4 +1,4 @@
-import { Accordion, Card } from "react-bootstrap";
+import { Accordion } from "react-bootstrap";
 
 const SeasonsTab = ({ seasons, episodes }) => {
 	return (

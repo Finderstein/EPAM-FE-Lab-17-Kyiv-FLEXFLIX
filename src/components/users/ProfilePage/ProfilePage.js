@@ -1,11 +1,29 @@
-import ProfileMainInfo from "./SubComponents/ProfileMainInfo";
+import { useUser } from "../../../contexts/UserContext";
+import UserMainInfo from "../../utilities/UserInfo/UserMainInfo";
+import UserTabs from "../../utilities/UserInfo/UserTabs";
 
 const Profile = () => {
+	const { currentUser, currentUserInfo, userPhoto } = useUser();
+
 	return (
 		<>
-			{<ProfileMainInfo />}
-			{/* {userInfo && <ProfileMainInfo userInfo={userInfo} />} */}
-			{/* userInfo && <ProfileTabs userInfo={userInfo} /> */}
+			{currentUser && currentUserInfo && userPhoto && (
+				<>
+					<UserMainInfo
+						user={{
+							uid: currentUser.uid,
+							userInfo: currentUserInfo,
+							userPhoto,
+						}}
+					/>
+					<UserTabs
+						user={{
+							uid: currentUser.uid,
+							userInfo: currentUserInfo,
+						}}
+					/>
+				</>
+			)}
 		</>
 	);
 };

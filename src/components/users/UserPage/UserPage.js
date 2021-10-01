@@ -1,21 +1,39 @@
-import { useState } from "react";
-import { useUser } from "../../../context/UserContext";
-import { useGetAsyncData } from "../../hooks/useGetAsyncData";
-import UserMainInfo from "./SubComponents/UserMainInfo";
+import { useEffect } from "react";
+import { useUser } from "../../../contexts/UserContext";
+import UserMainInfo from "../../utilities/UserInfo/UserMainInfo";
+import UserTabs from "../../utilities/UserInfo/UserTabs";
 
-// This UserPage component and sub components are very much like ProfilePage component and its sub components,
-// and it is possible to merge them to make only one page but due to time constraints I will leave as it is
 const UserPage = ({
 	match: {
 		params: { id },
 	},
 }) => {
-	const [user, setUser] = useState();
-	const { getUserInfo } = useUser();
+	const { subscribeToOtherUser, otherUserInfo, otherUserPhoto } = useUser();
+	useEffect(() => {
+		subscribeToOtherUser(id);
+	}, []);
 
-	useGetAsyncData(() => getUserInfo(id), setUser);
-
-	return <>{user && <UserMainInfo user={{ uid: id, userInfo: user }} />}</>;
+	return (
+		<>
+			{otherUserInfo && otherUserPhoto && (
+				<>
+					<UserMainInfo
+						user={{
+							uid: id,
+							userInfo: otherUserInfo,
+							userPhoto: otherUserPhoto,
+						}}
+					/>
+					<UserTabs
+						user={{
+							uid: id,
+							userInfo: otherUserInfo,
+						}}
+					/>
+				</>
+			)}
+		</>
+	);
 };
 
 export default UserPage;

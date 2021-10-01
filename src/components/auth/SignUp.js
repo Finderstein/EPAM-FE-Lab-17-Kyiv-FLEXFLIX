@@ -1,7 +1,7 @@
 import ReactTooltip from "react-tooltip";
 import { useHistory } from "react-router";
 import { useRef, useState } from "react";
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../../contexts/UserContext";
 import { Alert } from "react-bootstrap";
 import "./auth.css";
 

@@ -9,8 +9,8 @@ import ShowPage from "./components/shows/ShowPage/ShowPage";
 import TodayShowsPage from "./components/shows/TodayShowsPage/TodayShowsPage";
 import Profile from "./components/users/ProfilePage/ProfilePage";
 import AllUsersPage from "./components/users/AllUsersPage/AllUsersPage";
-import { UserProvider } from "./context/UserContext";
-import PrivateRoute from "./utilities/PrivateRoute";
+import { UserProvider } from "./contexts/UserContext";
+import PrivateRoute from "./components/utilities/PrivateRoute";
 import UserPage from "./components/users/UserPage/UserPage";
 
 const App = () => {

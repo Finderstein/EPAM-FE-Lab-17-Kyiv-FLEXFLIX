@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import "../shows.css";
+import "../../shows/shows.css";
 
 const BigShowCard = ({ id, name, image: { medium }, summary }) => {
 	const [loading, setLoading] = useState(true);

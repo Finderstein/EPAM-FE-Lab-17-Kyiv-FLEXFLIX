@@ -40,12 +40,17 @@ const RandomShow = () => {
 				ref={rndWrapRef}
 			>
 				{randomShows &&
-					randomShows.map((show) => (
-						<RandomShowCard
-							key={_.uniqueId(`RandomShowCard${show.id}`)}
-							{...show}
-						/>
-					))}
+					randomShows.map((show) => {
+						if (!show.id) {
+							return "";
+						}
+						return (
+							<RandomShowCard
+								key={_.uniqueId(`RandomShowCard${show.id}`)}
+								{...show}
+							/>
+						);
+					})}
 				<button
 					type="button"
 					onClick={tryAgain}

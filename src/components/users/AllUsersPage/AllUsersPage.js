@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Form } from "react-bootstrap";
-import { useUser } from "../../../context/UserContext";
+import { useUser } from "../../../contexts/UserContext";
 import { useGetAsyncData } from "../../hooks/useGetAsyncData";
-import UserCard from "./SubComponents/UserCard";
+import UserCard from "../../utilities/Cards/UserCard";
 
 const AllUsersPage = () => {
 	const [allUsers, setAllUsers] = useState();

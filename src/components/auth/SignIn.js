@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Alert } from "react-bootstrap";
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../../contexts/UserContext";
 import { useHistory } from "react-router";
 import "./auth.css";
 

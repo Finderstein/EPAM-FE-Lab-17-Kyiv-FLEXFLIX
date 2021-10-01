@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import BigShowCard from "../../UtilityComponents/BigShowCard";
+import BigShowCard from "../../../utilities/Cards/BigShowCard";
 import { getTodayShows } from "../../../../api/tvmaze.api";
 import { useGetAsyncData } from "../../../hooks/useGetAsyncData";
 

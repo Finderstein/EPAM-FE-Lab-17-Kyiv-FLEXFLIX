@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { getTodayShows } from "../../../api/tvmaze.api";
 import { useGetAsyncData } from "../../hooks/useGetAsyncData";
-import BigShowCard from "../UtilityComponents/BigShowCard";
+import BigShowCard from "../../utilities/Cards/BigShowCard";
 
 const TodayShowsPage = () => {
 	const [todayShows, setTodayShows] = useState();

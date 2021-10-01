@@ -88,7 +88,7 @@ const complexFilter = (array, data) => {
 	return filteredArray;
 };
 
-export default (data, pageNumber) => {
+const useShowSearch = (data, pageNumber) => {
 	const [prevData, setPrevData] = useState();
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
@@ -135,3 +135,5 @@ export default (data, pageNumber) => {
 
 	return { loading, error, shows, hasMore };
 };
+
+export default useShowSearch;

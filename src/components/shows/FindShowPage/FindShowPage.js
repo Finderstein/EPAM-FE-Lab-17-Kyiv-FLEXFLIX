@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import useQuery from "../../hooks/useQuery";
 import useShowSearch from "../../hooks/useShowSearch";
-import SmallShowCard from "../UtilityComponents/SmallShowCard";
+import SmallShowCard from "../../utilities/Cards/SmallShowCard";
 import SelectCountry from "./SubComponents/Selectors/SelectCountry";
 import SelectGenre from "./SubComponents/Selectors/SelectGenre";
 import SelectLanguage from "./SubComponents/Selectors/SelectLanguage";

@@ -1,12 +1,42 @@
 import { Button, Form } from "react-bootstrap";
-import { useUser } from "../../../../context/UserContext";
+import { useUser } from "../../../contexts/UserContext";
 import DropdownMultiselect from "react-multiselect-dropdown-bootstrap";
-import { genresOptions } from "../../../../utilities/genresArray";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const EditInfo = ({ closer }) => {
 	const { currentUserInfo, updateUserInfo, currentUser } = useUser();
 	const [userGenres, setUserGenres] = useState(currentUserInfo.favGenres);
+
+	const genresOptions = [
+		"Thriller",
+		"Travel",
+		"War",
+		"Western",
+		"Mystery",
+		"Nature",
+		"Romance",
+		"Science-Fiction",
+		"Sports",
+		"Supernatural",
+		"Food",
+		"History",
+		"Horror",
+		"Legal",
+		"Medical",
+		"Music",
+		"Crime",
+		"DIY",
+		"Drama",
+		"Espionage",
+		"Family",
+		"Fantasy",
+		"Action",
+		"Adult",
+		"Adventure",
+		"Anime",
+		"Children",
+		"Comedy",
+	];
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

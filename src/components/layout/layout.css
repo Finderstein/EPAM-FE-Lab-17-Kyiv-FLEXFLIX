@@ -62,3 +62,59 @@
 .rounded-circle {
 	object-fit: cover;
 }
+
+.dp-toggle {
+	background-color: transparent;
+	border: none;
+	color: gainsboro;
+}
+
+.dp-toggle.dropdown-toggle {
+	background-color: transparent !important;
+	border-color: transparent !important;
+	box-shadow: none !important;
+}
+
+.dp-toggle:hover {
+	background-color: transparent;
+	color: white;
+}
+
+.dp-toggle:after {
+	display: none;
+}
+
+.custom-badge {
+	position: absolute;
+	top: 4px;
+	right: 20px;
+	padding: 0px 5px;
+	border-radius: 50%;
+	background: red;
+	color: white;
+	font-size: 11px;
+}
+
+.notification {
+	border: 1px solid black;
+	border-left: none;
+	border-right: none;
+	cursor: pointer;
+}
+
+.notification:hover {
+	background-color: rgba(0, 0, 0, 0.048);
+}
+
+.notification h6 {
+	text-decoration: underline;
+}
+
+.dropdown-menu {
+	width: 250px;
+}
+
+.notification-menu {
+	max-height: 250px;
+	overflow: auto;
+}
